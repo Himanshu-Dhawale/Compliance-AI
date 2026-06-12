@@ -20,7 +20,7 @@ export class ConfigValidationError extends Error {
     // Zod returns string[] | undefined per field; normalize to string[]
     const fieldErrors: FieldErrors = {};
     for (const [field, messages] of Object.entries(flattened)) {
-      if (messages !== undefined) {
+      if (Array.isArray(messages)) {
         fieldErrors[field] = messages;
       }
     }

@@ -1,12 +1,25 @@
 import 'dotenv/config';
 import express from 'express';
 import { loadEnv } from './config/env.js';
+import { ConfigValidationError } from './types/errors.js';
 
 try {
   const env = loadEnv();
 
   const app = express();
-  app.listen(env.PORT, () => {
+
+  const server = app.listen(env.PORT);
+
+  server.on('error', (error: NodeJS.ErrnoException) => {
+    console.error('Failed to start server', {
+      code: error.code,
+      message: error.message,
+      port: env.PORT,
+    });
+    process.exit(1);
+  });
+
+  server.on('listening', () => {
     console.log(`Listening on port ${env.PORT}`);
   });
 } catch (error) {

@@ -1,3 +1,4 @@
+import { ConfigValidationError } from '../types/errors.js';
 import { z } from 'zod';
 
 const envSchema = z.object({
